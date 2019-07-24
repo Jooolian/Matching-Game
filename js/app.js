@@ -3,6 +3,22 @@ $("li").click(function() {
     $( this ).toggleClass("cardOpen cardClosed");
   });
 
-let deckOfCards = [1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12,13,13,14,14,15,15,16,16];
+let deckOfCards = [fa-motorcycle, fa-motorcycle, fa-truck, fa-truck, fa-cube, fa-cube, fa-star, fa-star, fa-suitcase, fa-suitcase, fa-snowflake, fa-snowflake, fa-space-shuttle, fa-space-shuttle, fa-flask, fa-flask];
 
-let allIcons = [truck, truck, ]
+/* create the html using js */
+
+
+/* shuffle deck */
+
+
+/* every li-element needs to have it's own index from which it gathers its icon */
+
+
+
+/* timer */
+
+/* reset without using server */
+
+/* stars */
+
+/* move counter */
