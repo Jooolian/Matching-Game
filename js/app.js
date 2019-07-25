@@ -26,11 +26,14 @@ shuffle(deckOfCards);
 /* show icons on click */
 
 $("li").click(function(event) {
-  $(event.target).toggleClass("cardOpen cardClosed");
-  console.log(event.target.id);
+  if ($(event.target).hasClass("cardClosed")) {
+  $(event.target).addClass("cardOpen");
+  $(event.target).removeClass("cardClosed");
+  // console.log(event.target.id);
+  // console.log(event.target);
   const idOfTargetCard = event.target.id - 1;
   $(event.target).append(`<i class="fa ${deckOfCards[idOfTargetCard]} fa-2x" aria-hidden="true"></i>`);
-});
+}});
 
 /* same functionality as above but without jQuery */
 
@@ -51,13 +54,7 @@ $("li").click(function(event) {
 
 /* create the html using js */
 
-
-/* shuffle deck */
-
-
 /* every li-element needs to have it's own index from which it gathers it's icon */
-
-
 
 /* timer */
 
