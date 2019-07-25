@@ -29,8 +29,8 @@ $("li").click(function(event) {
   if ($(event.target).hasClass("cardClosed")) {
   $(event.target).addClass("cardOpen");
   $(event.target).removeClass("cardClosed");
-  // console.log(event.target.id);
-  // console.log(event.target);
+  console.log(event.target.id);
+  console.log(event.target);
   const idOfTargetCard = event.target.id - 1;
   $(event.target).append(`<i class="fa ${deckOfCards[idOfTargetCard]} fa-2x" aria-hidden="true"></i>`);
 }});
