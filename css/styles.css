@@ -2,11 +2,32 @@ body {
     background-color: white;
 }
 
+h1 {
+    font-family: 'Fascinate', cursive;
+    text-align: center;
+    color:  #46d6aa;
+}
+
+#timePassed, #movesMade {
+    margin: 5%;
+    color:  #46d6aa;
+    font-size: 18px;
+}
+
+.starRating {
+    color: #ffc75f;
+}
+
+#gameInfo {
+    text-align: center;
+} 
+
 #gameField {
     width: 600px;
     height: 600px;
     margin: auto;
-    margin-top: 50px;
+    margin-top: 15px;
+    margin-bottom: 50px;
     border-radius: 20px;
     background: linear-gradient(45deg ,#f9f871, #ffc75f);
     padding: 10px 10px 0 10px;
@@ -32,7 +53,7 @@ li {
     
 }
 
-.fa {
+i {
     color: white;
 }
 

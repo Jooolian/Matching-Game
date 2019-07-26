@@ -25,15 +25,18 @@ function shuffle(array) {
 /* shuffle the deck */ 
 shuffle(deckOfCards);
 
-/* array for show & compare mechanism */
+/* variables for startGame */
 let cardComparisonArray = [];
 let targetsArray = [];
+let moveCounter = 0;
 
 /* show icons on click */
 function startGame() {
     $("li").click(function(event) {
-      if(cardComparisonArray.length < 2) {
-      if($(event.target).hasClass("cardClosed")) {
+      if (cardComparisonArray.length < 2) {
+      if ($(event.target).hasClass("cardClosed")) {
+        incrementMoves();
+        starRater();
         showCards();
 }}})};
 
@@ -56,8 +59,8 @@ function showCards() {
 function compareCards(targetClass) { 
   cardComparisonArray.push(targetClass);
   console.log(cardComparisonArray);
-  if(cardComparisonArray.length === 2) {
-    if(cardComparisonArray[0] != cardComparisonArray[1]) {
+  if (cardComparisonArray.length === 2) {
+    if (cardComparisonArray[0] != cardComparisonArray[1]) {
       closeCards();
     }
     else {
@@ -78,7 +81,7 @@ function closeCards() {
     targetsArray[1][0].firstElementChild.remove();
     targetsArray = [];
     cardComparisonArray = [];
-    }, 1500);  
+    }, 1000);  
 }
 
 startGame();
@@ -98,12 +101,27 @@ startGame();
 
 /* create the html using js */
 
-/* every li-element needs to have it's own index from which it gathers it's icon */
-
 /* timer */
 
 /* reset without using server */
 
-/* stars */
+/* stars rating */
+
+function starRater() {
+  if (moveCounter > 20) {
+    $("#star3").css("color", "#b8ba70");
+  } 
+  if (moveCounter > 24) {
+    $("#star2").css("color", "#b8ba70");
+  } 
+  if (moveCounter > 28) {
+    $("#star1").css("color", "#b8ba70");
+  } 
+}
 
 /* move counter */
+
+function incrementMoves() {
+  moveCounter++;
+  $("#movesMade").text(`moves made: ${moveCounter}`);
+}
