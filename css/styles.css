@@ -9,7 +9,6 @@ h1 {
 }
 
 #timePassed, #movesMade {
-    margin: 5%;
     color:  #46d6aa;
     font-size: 18px;
 }
@@ -19,7 +18,9 @@ h1 {
 }
 
 #gameInfo {
-    text-align: center;
+    width: 600px;
+    display: flex;
+    justify-content: space-between;
 } 
 
 #gameField {
