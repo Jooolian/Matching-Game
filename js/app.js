@@ -29,6 +29,7 @@ shuffle(deckOfCards);
 let cardComparisonArray = [];
 let targetsArray = [];
 let moveCounter = 0;
+let starCounter = 3;
 
 /* show icons on click */
 function startGame() {
@@ -84,44 +85,46 @@ function closeCards() {
     }, 1000);  
 }
 
-startGame();
+/* stars rating */
+function starRater() {
+  if (moveCounter > 20) {
+    $("#star3").css("color", "#b8ba70");
+    starCounter--;
+  } 
+  if (moveCounter > 24) {
+    $("#star2").css("color", "#b8ba70");
+    starCounter--;
+  } 
+  if (moveCounter > 28) {
+    $("#star1").css("color", "#b8ba70");
+    starCounter--;
+  } 
+}
 
-
-/* same functionality as above but without jQuery */
-
-// document.querySelector("body").addEventListener("click", function(event) {
-//   if (event.target.nodeName === 'LI') {
-//   event.target.classList.add("cardOpen");
-//   event.target.classList.remove("cardClosed");
-//   const addIcon = document.createElement("i");
-//   addIcon.classList = `fa ${deckOfCards[1]} fa-2x`
-//   event.target.appendChild(addIcon);
-// }});
-
+/* move counter */
+function incrementMoves() {
+  moveCounter++;
+  $("#movesMade").text(`moves made: ${moveCounter}`);
+  youWin();
+}
 
 /* create the html using js */
 
 /* timer */
 
+/* win message */
+function youWin() {
+ if (window.confirm(`Congratulations, you win!
+ It took you ${moveCounter} moves and gameDuration! You receive ${starCounter} out of 3 stars!
+ Want to play another game?`)) {
+   newGame();
+  }
+}
+
+
 /* reset without using server */
+function newGame() {
+location.reload();
+};
 
-/* stars rating */
-
-function starRater() {
-  if (moveCounter > 20) {
-    $("#star3").css("color", "#b8ba70");
-  } 
-  if (moveCounter > 24) {
-    $("#star2").css("color", "#b8ba70");
-  } 
-  if (moveCounter > 28) {
-    $("#star1").css("color", "#b8ba70");
-  } 
-}
-
-/* move counter */
-
-function incrementMoves() {
-  moveCounter++;
-  $("#movesMade").text(`moves made: ${moveCounter}`);
-}
+startGame();
