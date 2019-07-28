@@ -30,9 +30,13 @@ let cardComparisonArray = [];
 let targetsArray = [];
 let moveCounter = 0;
 let starCounter = 3;
+let seconds = 0, minutes = 0;
+// let timeCounter = 0;
 
 /* show icons on click */
 function startGame() {
+    $("ul").one("click", timer);
+
     $("li").click(function(event) {
       if (cardComparisonArray.length < 2) {
       if ($(event.target).hasClass("cardClosed")) {
@@ -43,28 +47,25 @@ function startGame() {
 
 /* show card when clicked on */
 function showCards() {
-  console.log(targetsArray);
   targetsArray.push($(event.target));
   $(event.target).addClass("cardOpen");
   $(event.target).removeClass("cardClosed");
-  // console.log(event.target.id);
-  // console.log(event.target);
-  // console.log($(event.target));
   const idOfTargetCard = event.target.id - 1;
   $(event.target).append(`<i class="fa ${deckOfCards[idOfTargetCard]} fa-2x" aria-hidden="true"></i>`);
-  console.log(event.target.firstElementChild.classList[1]);
   compareCards(event.target.firstElementChild.classList[1]);
 }
   
 /* compare cards */
 function compareCards(targetClass) { 
   cardComparisonArray.push(targetClass);
-  console.log(cardComparisonArray);
   if (cardComparisonArray.length === 2) {
     if (cardComparisonArray[0] != cardComparisonArray[1]) {
       closeCards();
     }
     else {
+      if($(".cardOpen").length == 16) {
+        youWin();
+      }
       targetsArray = [];
       cardComparisonArray = [];
     }
@@ -87,15 +88,15 @@ function closeCards() {
 
 /* stars rating */
 function starRater() {
-  if (moveCounter > 20) {
+  if (moveCounter === 20) {
     $("#star3").css("color", "#b8ba70");
     starCounter--;
   } 
-  if (moveCounter > 24) {
+  if (moveCounter === 26) {
     $("#star2").css("color", "#b8ba70");
     starCounter--;
   } 
-  if (moveCounter > 28) {
+  if (moveCounter === 32) {
     $("#star1").css("color", "#b8ba70");
     starCounter--;
   } 
@@ -105,22 +106,38 @@ function starRater() {
 function incrementMoves() {
   moveCounter++;
   $("#movesMade").text(`moves made: ${moveCounter}`);
-  youWin();
 }
 
-/* create the html using js */
+/* create the html using js - clientside */
+
+/* make responsive? */
 
 /* timer */
+function timer() {
+  window.setInterval(function() {
+    seconds++;
+    if (seconds < 10) {
+      seconds = `0${seconds}`;
+    }
+    if (seconds === 60) { 
+      seconds = 0;
+      minutes++;
+    }
+    if (minutes === 9 && seconds === 59) {
+      newGame()
+    }
+    $("#timePassed").text(`time passed: 0${minutes}:${seconds}`);
+  }, 1000);
+}
 
 /* win message */
 function youWin() {
  if (window.confirm(`Congratulations, you win!
- It took you ${moveCounter} moves and gameDuration! You receive ${starCounter} out of 3 stars!
+ It took you ${moveCounter} moves and 0${minutes}:${seconds} minutes! You received ${starCounter} out of 3 stars!
  Want to play another game?`)) {
    newGame();
   }
 }
-
 
 /* reset without using server */
 function newGame() {
