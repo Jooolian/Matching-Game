@@ -1,10 +1,9 @@
-/* create the html using js - clientside */
+/* create the html using js - clientside rendering */
 let idCounter = 0;
 let list = $("ul");
 
 for (let i = 0; i < 4; i++) {
   let rows = document.createElement("div");
-  console.log(rows);
   rows.className = "row";
   for (let j = 0; j < 4; j++) {
   idCounter++;
@@ -16,28 +15,20 @@ for (let i = 0; i < 4; i++) {
   }
 }
 
-
 /* array with all cards/icons */
 const deckOfCards = ["fa-motorcycle", "fa-motorcycle", "fa-truck", "fa-truck", "fa-cube", "fa-cube", "fa-star", "fa-star", "fa-suitcase", "fa-suitcase", "fa-snowflake", "fa-snowflake", "fa-space-shuttle", "fa-space-shuttle", "fa-flask", "fa-flask"];
 
-/* shuffle deck function from https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array#2450976 */
+/* shuffle deck function inspired by https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array#2450976 */
 function shuffle(array) {
-  var currentIndex = array.length, temporaryValue, randomIndex;
-
-  // While there remain elements to shuffle...
-  while (0 !== currentIndex) {
-
-    // Pick a remaining element...
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
-
-    // And swap it with the current element.
-    temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
-  }
-
-  return array;
+  let currentIndex = -1;
+  array.forEach(function() {
+    currentIndex++;
+    let randomIndex = Math.floor(Math.random() * array.length);
+    let randomItem = array[randomIndex];
+    let currentItem = array[currentIndex];
+    array[randomIndex] = currentItem;
+    array[currentIndex] = randomItem;
+  })
 }
 
 /* shuffle the deck */ 
@@ -135,6 +126,7 @@ function timer() {
     }
     if (seconds === 60) { 
       seconds = 0;
+      seconds = `0${seconds}`;
       minutes++;
     }
     if (minutes === 9 && seconds === 59) {
@@ -146,16 +138,51 @@ function timer() {
 
 /* reload button - abort current game - start new game */
 $("#newRound").click(function() {
+  youWin();
   location.reload();
 });
 
 /* win message */
-function youWin() {
- if (window.confirm(`Congratulations, you win!
- It took you ${moveCounter} moves and 0${minutes}:${seconds} minutes! You received ${starCounter} out of 3 stars!
- Want to play another game?`)) {
-   newGame();
+function displayMinutes() {
+  if (minutes == 0) {
+    return ""
   }
+  if (minutes == 1) {
+    return " " + minutes + " minute";
+  } 
+  if (minutes > 1) {
+    return " " + minutes + " minutes"
+  }
+}
+
+function displaySeconds() {
+  if (seconds == 00) {
+    return ""
+  }
+  if (seconds == 1) {
+    let withoutZero1 = seconds.toString()[1];
+    return " " + withoutZero1 + " second";
+  } 
+  if (seconds > 1 && seconds < 10) {
+    let withoutZero2 = seconds.toString()[1];
+    return " " + withoutZero2 + " seconds";
+  }
+  else {
+    return " " + seconds + " seconds";
+  }
+}
+
+function youWin() {
+ if (window.confirm(` Congratulations, you win!
+
+  You needed ${moveCounter} moves and it took you${displayMinutes()}${displaySeconds()} to find all the matches! 
+  
+  You received ${starCounter} out of 3 stars!
+
+  Want to play another game?`)) {
+    newGame();
+    }
+  /*             else????????????????????????????????????????????????????? */
 }
 
 /* reset without using server */
@@ -163,4 +190,5 @@ function newGame() {
 location.reload();
 };
 
+/* call start game function */
 startGame();
