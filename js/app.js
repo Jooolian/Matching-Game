@@ -1,6 +1,24 @@
+/* create the html using js - clientside */
+let idCounter = 0;
+let list = $("ul");
+
+for (let i = 0; i < 4; i++) {
+  let rows = document.createElement("div");
+  console.log(rows);
+  rows.className = "row";
+  for (let j = 0; j < 4; j++) {
+  idCounter++;
+  let listItems = document.createElement("li");
+  listItems.className = "col cardClosed";
+  listItems.id = idCounter;
+  rows.append(listItems);
+  list.append(rows);
+  }
+}
+
+
 /* array with all cards/icons */
 const deckOfCards = ["fa-motorcycle", "fa-motorcycle", "fa-truck", "fa-truck", "fa-cube", "fa-cube", "fa-star", "fa-star", "fa-suitcase", "fa-suitcase", "fa-snowflake", "fa-snowflake", "fa-space-shuttle", "fa-space-shuttle", "fa-flask", "fa-flask"];
-
 
 /* shuffle deck function from https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array#2450976 */
 function shuffle(array) {
@@ -108,10 +126,6 @@ function incrementMoves() {
   $("#movesMade").text(`moves made: ${moveCounter}`);
 }
 
-/* create the html using js - clientside */
-
-/* make responsive? */
-
 /* timer */
 function timer() {
   window.setInterval(function() {
@@ -129,6 +143,11 @@ function timer() {
     $("#timePassed").text(`time passed: 0${minutes}:${seconds}`);
   }, 1000);
 }
+
+/* reload button - abort current game - start new game */
+$("#newRound").click(function() {
+  location.reload();
+});
 
 /* win message */
 function youWin() {

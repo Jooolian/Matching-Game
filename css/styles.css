@@ -13,6 +13,12 @@ h1 {
     font-size: 18px;
 }
 
+#newRound {
+    color:  #46d6aa;
+    margin-top: 7px;
+    cursor: pointer; 
+}
+
 .starRating {
     color: #ffc75f;
 }
@@ -58,5 +64,6 @@ li {
 i {
     color: white;
 }
+
 
 
