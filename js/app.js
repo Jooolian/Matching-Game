@@ -9,6 +9,14 @@ for (let i = 0; i < 4; i++) {
   idCounter++;
   let listItems = document.createElement("li");
   listItems.className = "col cardClosed";
+  /* animation */
+  let showCard = document.createElement("div");
+  let hideCard = document.createElement("div");
+  showCard.className = "card__face card__face--front";
+  hideCard.className = "card__face card__face--back";
+  listItems.append(hideCard);
+  listItems.append(showCard);
+  /* animation end */
   listItems.id = idCounter;
   rows.append(listItems);
   list.append(rows);
@@ -18,7 +26,7 @@ for (let i = 0; i < 4; i++) {
 /* array with all cards/icons */
 const deckOfCards = ["fa-motorcycle", "fa-motorcycle", "fa-truck", "fa-truck", "fa-cube", "fa-cube", "fa-star", "fa-star", "fa-suitcase", "fa-suitcase", "fa-snowflake", "fa-snowflake", "fa-space-shuttle", "fa-space-shuttle", "fa-flask", "fa-flask"];
 
-/* shuffle deck function inspired by https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array#2450976 */
+/* shuffle deck function - swapping cards inspired by https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array#2450976 */
 function shuffle(array) {
   let currentIndex = -1;
   array.forEach(function() {
@@ -57,11 +65,14 @@ function startGame() {
 /* show card when clicked on */
 function showCards() {
   targetsArray.push($(event.target));
+  console.log(targetsArray);
   $(event.target).addClass("cardOpen");
   $(event.target).removeClass("cardClosed");
   const idOfTargetCard = event.target.id - 1;
-  $(event.target).append(`<i class="fa ${deckOfCards[idOfTargetCard]} fa-2x" aria-hidden="true"></i>`);
-  compareCards(event.target.firstElementChild.classList[1]);
+  
+  $(event.target.lastElementChild).append(`<i class="fa ${deckOfCards[idOfTargetCard]} fa-2x" aria-hidden="true"></i>`);
+  console.log(event.target.lastElementChild.firstElementChild.classList[1]);
+  compareCards(event.target.lastElementChild.firstElementChild.classList[1]);
 }
   
 /* compare cards */
@@ -86,10 +97,11 @@ function closeCards() {
   setTimeout(function() {
     targetsArray[0].removeClass("cardOpen");
     targetsArray[0].addClass("cardClosed");
-    targetsArray[0][0].firstElementChild.remove();
+    console.log(targetsArray[0][0].lastElementChild.firstElementChild);
+    targetsArray[0][0].lastElementChild.firstElementChild.remove();
     targetsArray[1].removeClass("cardOpen");
     targetsArray[1].addClass("cardClosed");
-    targetsArray[1][0].firstElementChild.remove();
+    targetsArray[1][0].lastElementChild.firstElementChild.remove();
     targetsArray = [];
     cardComparisonArray = [];
     }, 1000);  
@@ -138,7 +150,7 @@ function timer() {
 
 /* reload button - abort current game - start new game */
 $("#newRound").click(function() {
-  youWin();
+  youWin();                                  /* remember to delete */
   location.reload();
 });
 
@@ -173,7 +185,7 @@ function displaySeconds() {
 }
 
 function youWin() {
- if (window.confirm(` Congratulations, you win!
+ if (window.confirm(`  Congratulations, you win!
 
   You needed ${moveCounter} moves and it took you${displayMinutes()}${displaySeconds()} to find all the matches! 
   
