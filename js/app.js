@@ -9,14 +9,6 @@ for (let i = 0; i < 4; i++) {
   idCounter++;
   let listItems = document.createElement("li");
   listItems.className = "col cardClosed";
-  /* animation */
-  let showCard = document.createElement("div");
-  let hideCard = document.createElement("div");
-  showCard.className = "card__face card__face--front";
-  hideCard.className = "card__face card__face--back";
-  listItems.append(hideCard);
-  listItems.append(showCard);
-  /* animation end */
   listItems.id = idCounter;
   rows.append(listItems);
   list.append(rows);
@@ -65,14 +57,11 @@ function startGame() {
 /* show card when clicked on */
 function showCards() {
   targetsArray.push($(event.target));
-  console.log(targetsArray);
   $(event.target).addClass("cardOpen");
   $(event.target).removeClass("cardClosed");
   const idOfTargetCard = event.target.id - 1;
-  
-  $(event.target.lastElementChild).append(`<i class="fa ${deckOfCards[idOfTargetCard]} fa-2x" aria-hidden="true"></i>`);
-  console.log(event.target.lastElementChild.firstElementChild.classList[1]);
-  compareCards(event.target.lastElementChild.firstElementChild.classList[1]);
+  $(event.target).append(`<i class="fa ${deckOfCards[idOfTargetCard]} fa-2x" aria-hidden="true"></i>`);
+  compareCards(event.target.firstElementChild.classList[1]);
 }
   
 /* compare cards */
@@ -97,11 +86,10 @@ function closeCards() {
   setTimeout(function() {
     targetsArray[0].removeClass("cardOpen");
     targetsArray[0].addClass("cardClosed");
-    console.log(targetsArray[0][0].lastElementChild.firstElementChild);
-    targetsArray[0][0].lastElementChild.firstElementChild.remove();
+    targetsArray[0][0].firstElementChild.remove();
     targetsArray[1].removeClass("cardOpen");
     targetsArray[1].addClass("cardClosed");
-    targetsArray[1][0].lastElementChild.firstElementChild.remove();
+    targetsArray[1][0].firstElementChild.remove();
     targetsArray = [];
     cardComparisonArray = [];
     }, 1000);  
@@ -109,15 +97,15 @@ function closeCards() {
 
 /* stars rating */
 function starRater() {
-  if (moveCounter === 20) {
+  if (moveCounter === 26) {
     $("#star3").css("color", "#b8ba70");
     starCounter--;
   } 
-  if (moveCounter === 26) {
+  if (moveCounter === 32) {
     $("#star2").css("color", "#b8ba70");
     starCounter--;
   } 
-  if (moveCounter === 32) {
+  if (moveCounter === 38) {
     $("#star1").css("color", "#b8ba70");
     starCounter--;
   } 
@@ -150,11 +138,10 @@ function timer() {
 
 /* reload button - abort current game - start new game */
 $("#newRound").click(function() {
-  youWin();                                  /* remember to delete */
   location.reload();
 });
 
-/* win message */
+/* win modal correct display of time needed */
 function displayMinutes() {
   if (minutes == 0) {
     return ""
@@ -184,17 +171,17 @@ function displaySeconds() {
   }
 }
 
+/* win modal */
 function youWin() {
- if (window.confirm(`  Congratulations, you win!
+  $('#winModal').modal("show");
 
-  You needed ${moveCounter} moves and it took you${displayMinutes()}${displaySeconds()} to find all the matches! 
-  
+  $(".modal-title").text("Congratulations!");
+
+  $(".modal-body").text(`  You needed ${moveCounter} moves and it took you${displayMinutes()}${displaySeconds()} to find all the matches! 
   You received ${starCounter} out of 3 stars!
+  Want to play another round?`);
 
-  Want to play another game?`)) {
-    newGame();
-    }
-  /*             else????????????????????????????????????????????????????? */
+  $("#newGame").click(newGame);
 }
 
 /* reset without using server */

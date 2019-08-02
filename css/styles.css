@@ -33,7 +33,7 @@ h1 {
     width: 600px;
     height: 600px;
     margin: auto;
-    margin-top: 15px;
+    margin-top: 10px;
     margin-bottom: 50px;
     border-radius: 20px;
     background: linear-gradient(45deg ,#f9f871, #ffc75f);
@@ -46,32 +46,26 @@ li {
     height: calc(500px/4);
     list-style-type: none;
     margin: 10px;
-    cursor: pointer; 
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-}
-
-.card__face {
-    border-radius: 20px;
-    height: calc(500px/4);
-    width: 100%;
-}
-
-.card__face--back {
-    position: absolute;
-    background-color: #00b6d0;  
-}
-
-.card__face--front {
-    background-color: #46d6aa;
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer; 
+}
+
+.cardClosed {
+    background-color: #00b6d0;
+}
+
+.cardOpen {
+    background-color: #46d6aa;
 }
 
 i {
     color: white;
 }
 
-
+#close, #newGame {
+    background-color: #46d6aa;
+    border-color: #46d6aa;
+}
 
