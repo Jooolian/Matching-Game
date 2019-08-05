@@ -1,19 +1,14 @@
 /* create the html using js - clientside rendering */
 let idCounter = 0;
-let list = $("ul");
+let allCards = $("#cards");
 
-for (let i = 0; i < 4; i++) {
-  let rows = document.createElement("div");
-  rows.className = "row";
-  for (let j = 0; j < 4; j++) {
+for (let i = 0; i < 16; i++) {
   idCounter++;
-  let listItems = document.createElement("li");
-  listItems.className = "col cardClosed";
-  listItems.id = idCounter;
-  rows.append(listItems);
-  list.append(rows);
+  let aCard = document.createElement("div");
+  aCard.className = "card cardClosed";
+  aCard.id = idCounter;
+  allCards.append(aCard);
   }
-}
 
 /* array with all cards/icons */
 const deckOfCards = ["fa-motorcycle", "fa-motorcycle", "fa-truck", "fa-truck", "fa-cube", "fa-cube", "fa-star", "fa-star", "fa-suitcase", "fa-suitcase", "fa-snowflake", "fa-snowflake", "fa-space-shuttle", "fa-space-shuttle", "fa-flask", "fa-flask"];
@@ -44,9 +39,9 @@ let seconds = 0, minutes = 0;
 
 /* show icons on click */
 function startGame() {
-    $("ul").one("click", timer);
+    $("#cards").one("click", timer);
 
-    $("li").click(function(event) {
+    $(".card").click(function(event) {
       if (cardComparisonArray.length < 2) {
       if ($(event.target).hasClass("cardClosed")) {
         incrementMoves();

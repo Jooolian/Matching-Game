@@ -11,7 +11,7 @@
     <body>
         <h1>matching game</h1>
         <!-- info at the top: time, moves, stars, reload -->
-        <div id="gameInfo" class="container">
+        <div id="gameInfo">
             <span id="timePassed">time passed: 00:00</span><span id="movesMade">moves made: 0</span>
             <span id="stars">
                 <span id="star1" class="starRating fa fa-star fa" aria-hidden="true"></span>
@@ -22,9 +22,8 @@
         </div>
 
         <!-- cards generated using js -->
-        <div class="container" id="gameField">
-            <ul class="container">
-            </ul>
+        <div id="gameField">
+            <div id="cards"></div>
         </div>
 
         <!-- win modal from -->
@@ -39,8 +38,8 @@
                 </div>
                 <div class="modal-body"></div>
                 <div class="modal-footer">
-                <button id="newGame" type="button" class="btn btn-secondary" data-dismiss="modal">New Game</button>
-                <button id="close" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button id="newGame" type="button" class="btn btn-secondary" data-dismiss="modal">Yes</button>
+                <button id="close" type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
                 </div>
             </div>
             </div>

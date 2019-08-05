@@ -1,21 +1,31 @@
 body {
-    background-color: white;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
 }
 
 h1 {
     font-family: 'Fascinate', cursive;
-    text-align: center;
     color:  #46d6aa;
+    margin: auto;
+}
+
+#gameInfo {
+    width: 600px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+    font-size: 18px;
 }
 
 #timePassed, #movesMade {
     color:  #46d6aa;
-    font-size: 18px;
 }
 
 #newRound {
     color:  #46d6aa;
-    margin-top: 7px;
+    padding-top: 7px;
     cursor: pointer; 
 }
 
@@ -23,32 +33,34 @@ h1 {
     color: #ffc75f;
 }
 
-#gameInfo {
-    width: 600px;
-    display: flex;
-    justify-content: space-between;
-} 
-
 #gameField {
     width: 600px;
     height: 600px;
     margin: auto;
-    margin-top: 10px;
-    margin-bottom: 50px;
     border-radius: 20px;
     background: linear-gradient(45deg ,#f9f871, #ffc75f);
-    padding: 10px 10px 0 10px;
     box-shadow: 10px 10px 8px #888888;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 5px;
 }
 
-li {
+#cards {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 10px;
+    margin-bottom: 5px;
+}
+
+.card {
     border-radius: 20px;
-    height: calc(500px/4);
-    list-style-type: none;
+    height: 125px;
+    width: 125px;
     margin: 10px;
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     cursor: pointer; 
 }
 
@@ -71,3 +83,103 @@ i {
     border-color: #46d6aa;
 }
 
+/* media queries */
+
+@media only screen and (max-width: 635px) {
+    #gameInfo {
+        width: 500px;
+    }
+
+    #gameField {
+        width: 500px;
+        height: 500px;
+    }
+
+    #cards {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        padding: 6px;
+    }
+    
+    .card {
+        border-radius: 20px;
+        height: 110px;
+        width: 110px;
+        margin: 6px;
+    }
+  } 
+
+  @media only screen and (max-width: 535px) {
+    #gameInfo {
+        width: 400px;
+    }
+
+    #gameField {
+        width: 400px;
+        height: 400px;
+    }
+
+    #cards {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        padding: 4px;
+    }
+    
+    .card {
+        border-radius: 20px;
+        height: 90px;
+        width: 90px;
+        margin: 4px;
+    }
+  } 
+
+  @media only screen and (max-width: 435px) {
+
+span {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+    #gameInfo {
+        width: 310px;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    #gameField {
+        width: 290px;
+        height: 290px;
+    }
+
+    #star1, #star2, #star3 {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+
+    #newRound {
+        padding-top: 5px; 
+    }
+    
+    #cards {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        padding: 3px;
+    }
+    
+    .card {
+        border-radius: 20px;
+        height: 65px;
+        width: 65px;
+        margin: 3px;
+    }
+  } 
+
+  @media only screen and (max-width: 345px) {
+     
+    h1 {
+          font-size: 36px;
+    }
+  }
