@@ -7,13 +7,13 @@ body {
 h1 {
     font-family: 'Fascinate', cursive;
     color:  #46d6aa;
+    margin-bottom: 0;
 }
 
 #gameInfo {
     width: 600px;
     display: flex;
     justify-content: space-between;
-    margin-bottom: 10px;
     font-size: 18px;
 }
 
@@ -83,8 +83,15 @@ i {
 /* media queries */
 
 @media only screen and (max-width: 635px) {
+
+    h1 {
+        margin-bottom: 5px;
+    }
+
     #gameInfo {
         width: 500px;
+        margin-bottom: 5px;
+
     }
 
     #gameField {
