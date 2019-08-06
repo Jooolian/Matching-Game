@@ -6,6 +6,7 @@ for (let i = 0; i < 16; i++) {
   idCounter++;
   let aCard = document.createElement("div");
   aCard.className = "card cardClosed";
+  aCard.setAttribute("tabindex", "0");
   aCard.id = idCounter;
   allCards.append(aCard);
   }
@@ -37,17 +38,29 @@ let starCounter = 3;
 let seconds = 0, minutes = 0;
 // let timeCounter = 0;
 
+
+/* check if a card is clickable */
+function isCardClickable(event) {
+  if (cardComparisonArray.length < 2) {
+  if ($(event.target).hasClass("cardClosed")) {
+    incrementMoves();
+    starRater();
+    showCards();
+}}};
+
 /* show icons on click */
 function startGame() {
+  /* eventlistener to start timer */
     $("#cards").one("click", timer);
-
-    $(".card").click(function(event) {
-      if (cardComparisonArray.length < 2) {
-      if ($(event.target).hasClass("cardClosed")) {
-        incrementMoves();
-        starRater();
-        showCards();
-}}})};
+  /* eventlistener to tunr cards on click */
+    $(".card").click(isCardClickable);
+  /* eventlistener to turn cards when space bar is pressed */
+    $(".card").keypress(function(event) {
+      if (event.which == 32) {
+        isCardClickable(event);
+      }
+    })
+  };
 
 /* show card when clicked on */
 function showCards() {
