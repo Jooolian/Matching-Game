@@ -1,6 +1,5 @@
 body {
     display: flex;
-    /* justify-content: center; */
     flex-direction: column;
     align-items: center;
 }
@@ -8,15 +7,13 @@ body {
 h1 {
     font-family: 'Fascinate', cursive;
     color:  #46d6aa;
-    /* margin: auto; */
 }
 
 #gameInfo {
     width: 600px;
-    /* margin: auto; */
     display: flex;
     justify-content: space-between;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     font-size: 18px;
 }
 
@@ -37,7 +34,6 @@ h1 {
 #gameField {
     width: 600px;
     height: 600px;
-    /* margin: auto; */
     border-radius: 20px;
     background: linear-gradient(45deg ,#f9f871, #ffc75f);
     box-shadow: 10px 10px 8px #888888;
@@ -138,10 +134,14 @@ i {
 
   @media only screen and (max-width: 435px) {
 
-span {
-    margin-left: 5px;
-    margin-right: 5px;
-}
+    h1 {
+        margin-bottom: 30px;
+    }
+
+    #gameField {
+        width: 290px;
+        height: 290px;
+    }
 
     #gameInfo {
         width: 310px;
@@ -149,9 +149,14 @@ span {
         flex-wrap: wrap;
     }
 
-    #gameField {
-        width: 290px;
-        height: 290px;
+    span {
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+
+    #stars {
+        margin-top: 20px;
+        margin-bottom: 20px;
     }
 
     #star1, #star2, #star3 {
@@ -160,7 +165,10 @@ span {
     }
 
     #newRound {
-        padding-top: 5px; 
+        padding: 15px;
+        margin-top: 13px;
+        margin-bottom: 30px;
+
     }
     
     #cards {
