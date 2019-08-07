@@ -30,17 +30,43 @@ function shuffle(array) {
 /* shuffle the deck */ 
 shuffle(deckOfCards);
 
+/* enable navigating through cards using arrow keys */
+$(".card").keydown(function(event) {
+  let eventsId = event.target.id;
+  switch (event.which) {
+    case 37:
+      if (eventsId > 1 && eventsId != 5 && eventsId != 9 && eventsId != 13) {
+        $("#" + (Number(eventsId) - 1)).focus();
+        }
+      break;
+    case 38:
+      if (eventsId > 4) {
+        $("#" + (Number(eventsId) - 4)).focus();
+        }
+      break;
+    case 39:
+      if (eventsId < 16 && eventsId != 4 && eventsId != 8 && eventsId != 12) {
+      $("#" + (Number(eventsId) + 1)).focus();
+      }
+      break;
+    case 40:
+      if (eventsId < 13) {
+        $("#" + (Number(eventsId) + 4)).focus();
+        }
+      break;
+  }
+});
+
 /* variables for startGame */
 let cardComparisonArray = [];
 let targetsArray = [];
 let moveCounter = 0;
 let starCounter = 3;
 let seconds = 0, minutes = 0;
-// let timeCounter = 0;
-
 
 /* check if a card is clickable */
 function isCardClickable(event) {
+  isTimerRunning();
   if (cardComparisonArray.length < 2) {
   if ($(event.target).hasClass("cardClosed")) {
     incrementMoves();
@@ -48,14 +74,21 @@ function isCardClickable(event) {
     showCards();
 }}};
 
+/* is timer already running? */
+function isTimerRunning() {
+  if (seconds == 0 && minutes == 0) {
+    timer();
+  }
+};
+
 /* show icons on click */
 function startGame() {
   /* eventlistener to start timer */
-    $("#cards").one("click", timer);
-  /* eventlistener to tunr cards on click */
+    // $("#cards").one("click", timer);
+  /* eventlistener to turn cards on click */
     $(".card").click(isCardClickable);
-  /* eventlistener to turn cards when space bar is pressed */
-    $(".card").keypress(function(event) {
+  /* eventlistener to turn cards on pressing the space bar */
+    $(".card").keydown(function(event) {
       if (event.which == 32) {
         isCardClickable(event);
       }
