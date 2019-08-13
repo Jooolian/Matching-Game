@@ -138,15 +138,15 @@ function closeCards() {
 
 /* stars rating */
 function starRater() {
-  if (moveCounter === 26) {
+  if (moveCounter === 28) {
     $("#star3").css("color", "#b8ba70");
     starCounter--;
   } 
-  if (moveCounter === 32) {
+  if (moveCounter === 34) {
     $("#star2").css("color", "#b8ba70");
     starCounter--;
   } 
-  if (moveCounter === 38) {
+  if (moveCounter === 40) {
     $("#star1").css("color", "#b8ba70");
     starCounter--;
   } 
@@ -179,7 +179,8 @@ function timer() {
 
 /* reload button - abort current game - start new game */
 $("#newRound").click(function() {
-  location.reload();
+  // location.reload();         uncomment!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  youWin();                       // delete!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 });
 
 /* win modal correct display of time needed */
@@ -219,8 +220,50 @@ function youWin() {
   $(".modal-title").text("Congratulations!");
 
   $(".modal-body").text(`  You needed ${moveCounter} moves and it took you${displayMinutes()}${displaySeconds()} to find all the matches! 
-  You received ${starCounter} out of 3 stars!
-  Want to play another round?`);
+  You received ${starCounter} out of 3 stars!`);
+
+  /* win modal - input field */
+  let playerNameText = document.createElement("label");
+  playerNameText.setAttribute("id", "playerNameText");
+  playerNameText.textContent = "To save your result for the leaderboard and see where it is ranked, enter your name here: ";
+  $(".modal-body").append(playerNameText);
+
+  let playerName = document.createElement("input");
+  playerName.setAttribute("type", "text");
+  playerName.setAttribute("placeholder", "Player Name");
+  playerName.setAttribute("id", "playerName");
+  $(".modal-body").append(playerName);
+
+  let playerNameButton = document.createElement("button");
+  playerNameButton.setAttribute("id", "playerNameButton");
+  playerNameButton.setAttribute("type", "submit");
+  playerNameButton.setAttribute("class", "btn btn-secondary");
+  playerNameButton.textContent = "Save";
+  $(".modal-body").append(playerNameButton);
+
+  /* save modal input and player data in localstorage */
+  $("#playerNameButton").one("click", function(event) {
+
+    console.log(playerName.value);
+
+    let leaderboard = {
+      name: playerName.value,
+      moves: moveCounter,
+      timeMinutes: minutes,
+      timeSeconds: seconds
+    }
+
+    leaderboard = JSON.stringify(leaderboard);
+    console.log(leaderboard);
+    localStorage.setItem("leaderboard", leaderboard);
+    leaderboard = JSON.parse(leaderboard);
+
+    // localStorage.setItem("name", playerName.value);
+    $("#playerName").val("");
+    $(".modal-title").text("Leaderboard");
+    console.log(leaderboard.name);
+    $(".modal-body").html("<table><tr><td>Name</td><td>Moves</td><td>Time</td></tr><tr><td>" + leaderboard.name + "</td><td>" + leaderboard.moves + "</td><td>" + leaderboard.timeMinutes + " : " + leaderboard.timeSeconds + "</td></tr></table>");
+  });
 
   $("#newGame").click(newGame);
 }

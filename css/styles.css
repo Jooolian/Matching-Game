@@ -75,13 +75,21 @@ i {
     color: white;
 }
 
-#close, #newGame {
+#close, #newGame, #playerNameButton {
     background-color: #46d6aa;
     border-color: #46d6aa;
+    margin: 5px;
+}
+
+#playerNameText {
+    margin-top: 1em;
+}
+
+td {
+    padding: 10px;
 }
 
 /* media queries */
-
 @media only screen and (max-width: 635px) {
 
     h1 {
@@ -199,3 +207,5 @@ i {
           font-size: 36px;
     }
   }
+
+ 
