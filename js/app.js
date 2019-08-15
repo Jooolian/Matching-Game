@@ -63,6 +63,7 @@ let targetsArray = [];
 let moveCounter = 0;
 let starCounter = 3;
 let seconds = 0, minutes = 0;
+let leaderboard;
 
 /* check if a card is clickable */
 function isCardClickable(event) {
@@ -225,7 +226,7 @@ function youWin() {
   /* win modal - input field */
   let playerNameText = document.createElement("label");
   playerNameText.setAttribute("id", "playerNameText");
-  playerNameText.textContent = "To save your result for the leaderboard and see where it is ranked, enter your name here: ";
+  playerNameText.textContent = "To see whether you made the top 10, enter your name here: ";
   $(".modal-body").append(playerNameText);
 
   let playerName = document.createElement("input");
@@ -238,34 +239,79 @@ function youWin() {
   playerNameButton.setAttribute("id", "playerNameButton");
   playerNameButton.setAttribute("type", "submit");
   playerNameButton.setAttribute("class", "btn btn-secondary");
-  playerNameButton.textContent = "Save";
+  playerNameButton.textContent = "OK";
   $(".modal-body").append(playerNameButton);
 
-  /* save modal input and player data in localstorage */
-  $("#playerNameButton").one("click", function(event) {
+  /* when clicked, save modal input and player data in local storage */
+  $("#playerNameButton").one("click", function(event) {    //////////////////////////////// make keydown event for ENTER key
 
-    console.log(playerName.value);
-
-    let leaderboard = {
+    let newEntry = {
       name: playerName.value,
       moves: moveCounter,
       timeMinutes: minutes,
       timeSeconds: seconds
     }
 
-    leaderboard = JSON.stringify(leaderboard);
-    console.log(leaderboard);
-    localStorage.setItem("leaderboard", leaderboard);
-    leaderboard = JSON.parse(leaderboard);
+    //get leaderboard from local storage
+    leaderboard = JSON.parse(localStorage.getItem("leaderboard"));
+    
+    // add result to leaderboard if necessary
+      if (leaderboard === null) {
+        leaderboard = [];
+        leaderboard.push(newEntry);
+      }
 
-    // localStorage.setItem("name", playerName.value);
-    $("#playerName").val("");
-    $(".modal-title").text("Leaderboard");
-    console.log(leaderboard.name);
-    $(".modal-body").html("<table><tr><td>Name</td><td>Moves</td><td>Time</td></tr><tr><td>" + leaderboard.name + "</td><td>" + leaderboard.moves + "</td><td>" + leaderboard.timeMinutes + " : " + leaderboard.timeSeconds + "</td></tr></table>");
+    // the following works with chrome, maybe there is a problem with firefox because of security settings? !!!!!!!!!!!!!!!!!!
+      else if (leaderboard != null) {
+        if (leaderboard[leaderboard.length - 1].moves > newEntry.moves) {
+          for (i = 0; i < leaderboard.length; i++) {
+            if (leaderboard[i].moves > newEntry.moves) { //put >=  here for ranking without times
+              leaderboard.splice(i, 0, newEntry);
+              break;
+              }
+          //   else if (leaderboard[i].moves === newEntry.moves) {
+          //   if (leaderboard[i].timeMinutes > newEntry.timeMinutes) {
+          //     leaderboard.splice(i, 0, newEntry);
+          //     break;
+          //   }
+          //   else if (leaderboard[i].timeMinutes === newEntry.timeMinutes) {
+          //     if (parseInt(leaderboard[i].timeSeconds, 10) > parseInt(newEntry.timeSeconds, 10)) {
+          //       leaderboard.splice(i, 0, newEntry);
+          //       break;
+          //     }
+          //   }
+          // }  
+            }
+        }
+        else if (leaderboard[leaderboard.length - 1].moves < newEntry.moves) { 
+          leaderboard.push(newEntry);
+        }  
+      }
+
+      // cut off excess leaderboard entries 
+      if (leaderboard.length > 5) {
+        leaderboard.pop();
+      }
+    
+      // save updated top 5 to localstorage 
+      localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
+      console.log("Updated leaderboard after saving it: ");
+      console.log(leaderboard);
+      
+      // build leaderboard structure
+      $("#playerName").val("");
+      $(".modal-title").text("Leaderboard");
+      console.log(leaderboard.name);
+      $(".modal-body").html("<table><tr><td>Rank</td><td>Name</td><td>Moves</td><td>Time</td></tr></table>");
+
+      // fill leaderboard with entries
+      for (i = 0; i < leaderboard.length; i++) {
+        let newRow = $("<tr><td>" + (i + 1) + "</td><td>" + leaderboard[i].name + "</td><td>" + leaderboard[i].moves + "</td><td>" + leaderboard[i].timeMinutes + " : " + leaderboard[i].timeSeconds + "</td></tr>");
+        $(".modal-body table").append(newRow);
+      }
+
+      $("#newGame").click(newGame);
   });
-
-  $("#newGame").click(newGame);
 }
 
 /* reset without using server */
