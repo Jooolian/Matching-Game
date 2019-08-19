@@ -77,7 +77,7 @@ function isCardClickable(event) {
 
 /* is timer already running? */
 function isTimerRunning() {
-  if (seconds == 0 && minutes == 0) {
+  if (moveCounter == 0) {
     timer();
   }
 };
@@ -263,24 +263,29 @@ function youWin() {
 
     // the following works with chrome, maybe there is a problem with firefox because of security settings? !!!!!!!!!!!!!!!!!!
       else if (leaderboard != null) {
-        if (leaderboard[leaderboard.length - 1].moves > newEntry.moves) {
+        if (leaderboard[leaderboard.length - 1].moves >= newEntry.moves) { //put >=  here for ranking without times !!!!!!!!!!!!!!!!!!!!!!!!!!!!
           for (i = 0; i < leaderboard.length; i++) {
-            if (leaderboard[i].moves >= newEntry.moves) { //put >=  here for ranking without times
+            if (leaderboard[i].moves >= newEntry.moves) { //put >=  here for ranking without times !!!!!!!!!!!!!!!!!!!!!!!!!!!!
               leaderboard.splice(i, 0, newEntry);
+              console.log("leaderboard entry minutes: " + leaderboard[i].timeMinutes);
+              console.log("new entry minutes: " + newEntry.timeMinutes);
+              console.log("leaderboard entry seconds: " + parseInt(leaderboard[i].timeSeconds, 10));
+              console.log("new entry seconds: " + parseInt(newEntry.timeSeconds, 10));
               break;
               }
-          //   else if (leaderboard[i].moves === newEntry.moves) {
-          //   if (leaderboard[i].timeMinutes > newEntry.timeMinutes) {
-          //     leaderboard.splice(i, 0, newEntry);
-          //     break;
-          //   }
-          //   else if (leaderboard[i].timeMinutes === newEntry.timeMinutes) {
-          //     if (parseInt(leaderboard[i].timeSeconds, 10) > parseInt(newEntry.timeSeconds, 10)) {
-          //       leaderboard.splice(i, 0, newEntry);
-          //       break;
-          //     }
-          //   }
-          // }  
+
+            // else if (leaderboard[i].moves === newEntry.moves) {
+            //   if (leaderboard[i].timeMinutes > newEntry.timeMinutes) {
+            //     leaderboard.splice(i, 0, newEntry);
+            //     break;
+            //   }
+            //   else if (leaderboard[i].timeMinutes === newEntry.timeMinutes) {
+            //     if (parseInt(leaderboard[i].timeSeconds, 10) > parseInt(newEntry.timeSeconds, 10)) {
+            //       leaderboard.splice(i, 0, newEntry);
+            //       break;
+            //     } 
+            //   }
+            // }   
             }
         }
         else if (leaderboard[leaderboard.length - 1].moves < newEntry.moves) { 
