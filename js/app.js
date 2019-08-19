@@ -265,7 +265,7 @@ function youWin() {
       else if (leaderboard != null) {
         if (leaderboard[leaderboard.length - 1].moves > newEntry.moves) {
           for (i = 0; i < leaderboard.length; i++) {
-            if (leaderboard[i].moves > newEntry.moves) { //put >=  here for ranking without times
+            if (leaderboard[i].moves >= newEntry.moves) { //put >=  here for ranking without times
               leaderboard.splice(i, 0, newEntry);
               break;
               }

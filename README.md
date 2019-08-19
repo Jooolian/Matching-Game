@@ -1,4 +1,4 @@
-# Memory Game Project
+# Matching Game Project
 
 ## The Game
 
