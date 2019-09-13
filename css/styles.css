@@ -79,6 +79,7 @@ i {
     background-color: #46d6aa;
     border-color: #46d6aa;
     margin: 5px;
+    padding: 12px;
 }
 
 #playerNameText {
@@ -206,6 +207,9 @@ td {
      
     h1 {
           font-size: 36px;
+    }
+    td {
+       padding-right: 10px;
     }
   }
 

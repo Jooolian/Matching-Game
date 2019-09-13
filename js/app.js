@@ -237,8 +237,9 @@ function youWin() {
 
   let playerName = document.createElement("input");
   playerName.setAttribute("type", "text");
-  playerName.setAttribute("placeholder", "Player Name");
+  playerName.setAttribute("placeholder", "Your player name");
   playerName.setAttribute("id", "playerName");
+  playerName.setAttribute("maxlength", "12");
   $(".modal-body").append(playerName);
 
   let playerNameButton = document.createElement("button");
