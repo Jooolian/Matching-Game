@@ -64,6 +64,7 @@ let moveCounter = 0;
 let starCounter = 3;
 let seconds = 0, minutes = 0;
 let leaderboard;
+let minutesStopped, secondsStopped;
 
 /* check if a card is clickable */
 function isCardClickable(event) {
@@ -184,7 +185,8 @@ $("#newRound").click(function() {
   youWin();                       // delete!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 });
 
-/* win modal correct display of time needed */
+/* win modal display of time */
+// minutes
 function displayMinutes() {
   if (minutes == 0) {
     return ""
@@ -197,6 +199,7 @@ function displayMinutes() {
   }
 }
 
+// seconds
 function displaySeconds() {
   if (seconds == 00) {
     return ""
@@ -216,6 +219,9 @@ function displaySeconds() {
 
 /* win modal */
 function youWin() {
+  minutesStopped = minutes;
+  secondsStopped = seconds;
+
   $('#winModal').modal("show");
 
   $(".modal-title").text("Congratulations!");
@@ -248,50 +254,47 @@ function youWin() {
     let newEntry = {
       name: playerName.value,
       moves: moveCounter,
-      timeMinutes: minutes,
-      timeSeconds: seconds
+      timeMinutes: minutesStopped,
+      timeSeconds: parseInt(secondsStopped, 10)
     }
 
     //get leaderboard from local storage
     leaderboard = JSON.parse(localStorage.getItem("leaderboard"));
     
-    // add result to leaderboard if necessary
+    
+    // add result to leaderboard
       if (leaderboard === null) {
         leaderboard = [];
         leaderboard.push(newEntry);
+      }       
+      else {
+        leaderboard.push(newEntry)
       }
-
-    // the following works with chrome, maybe there is a problem with firefox because of security settings? !!!!!!!!!!!!!!!!!!
-      else if (leaderboard != null) {
-        if (leaderboard[leaderboard.length - 1].moves >= newEntry.moves) { //put >=  here for ranking without times !!!!!!!!!!!!!!!!!!!!!!!!!!!!
-          for (i = 0; i < leaderboard.length; i++) {
-            if (leaderboard[i].moves >= newEntry.moves) { //put >=  here for ranking without times !!!!!!!!!!!!!!!!!!!!!!!!!!!!
-              leaderboard.splice(i, 0, newEntry);
-              console.log("leaderboard entry minutes: " + leaderboard[i].timeMinutes);
-              console.log("new entry minutes: " + newEntry.timeMinutes);
-              console.log("leaderboard entry seconds: " + parseInt(leaderboard[i].timeSeconds, 10));
-              console.log("new entry seconds: " + parseInt(newEntry.timeSeconds, 10));
-              break;
-              }
-
-            // else if (leaderboard[i].moves === newEntry.moves) {
-            //   if (leaderboard[i].timeMinutes > newEntry.timeMinutes) {
-            //     leaderboard.splice(i, 0, newEntry);
-            //     break;
-            //   }
-            //   else if (leaderboard[i].timeMinutes === newEntry.timeMinutes) {
-            //     if (parseInt(leaderboard[i].timeSeconds, 10) > parseInt(newEntry.timeSeconds, 10)) {
-            //       leaderboard.splice(i, 0, newEntry);
-            //       break;
-            //     } 
-            //   }
-            // }   
-            }
+        
+    // sort leaderboard entries
+      leaderboard.sort(function (a, b) {
+        if (a.moves < b.moves) {
+          return -1;
         }
-        else if (leaderboard[leaderboard.length - 1].moves < newEntry.moves) { 
-          leaderboard.push(newEntry);
-        }  
-      }
+        else if (a.moves === b.moves) {
+          if (a.timeMinutes < b.timeMinutes) {
+            return -1;
+          }
+          if (a.timeMinutes === b.timeMinutes) {
+            if (a.timeSeconds < b.timeSeconds) {
+              return -1
+            }
+            else if (a.timeSeconds === b.timeSeconds) {
+              if (a.name < b.name) {
+                return -1
+              }
+              else {
+                return 1
+              }
+            }
+          }
+        }
+      });
 
       // cut off excess leaderboard entries 
       if (leaderboard.length > 5) {
@@ -307,11 +310,18 @@ function youWin() {
       $("#playerName").val("");
       $(".modal-title").text("Leaderboard");
       console.log(leaderboard.name);
-      $(".modal-body").html("<table><tr><td>Rank</td><td>Name</td><td>Moves</td><td>Time</td></tr></table>");
+      $(".modal-body").html("<table><tr><td>Name</td><td>Moves</td><td>Time</td></tr></table>");
 
       // fill leaderboard with entries
       for (i = 0; i < leaderboard.length; i++) {
-        let newRow = $("<tr><td>" + (i + 1) + "</td><td>" + leaderboard[i].name + "</td><td>" + leaderboard[i].moves + "</td><td>" + leaderboard[i].timeMinutes + " : " + leaderboard[i].timeSeconds + "</td></tr>");
+        let secondsDisplayedLeaderboard;
+        if (leaderboard[i].timeSeconds <= 9) {
+          secondsDisplayedLeaderboard = "0" + leaderboard[i].timeSeconds;
+        }
+        else {
+          secondsDisplayedLeaderboard = leaderboard[i].timeSeconds;
+        }
+        let newRow = $("<tr><td>" + leaderboard[i].name + "</td><td>" + leaderboard[i].moves + "</td><td>" + 0 + leaderboard[i].timeMinutes + " : " + secondsDisplayedLeaderboard + "</td></tr>");
         $(".modal-body table").append(newRow);
       }
 
