@@ -1,6 +1,6 @@
 /* create the html using js - clientside rendering */
 let idCounter = 0;
-let allCards = $("#cards");
+const allCards = $("#cards");
 
 for (let i = 0; i < 16; i++) {
   idCounter++;
@@ -19,9 +19,9 @@ function shuffle(array) {
   let currentIndex = -1;
   array.forEach(function() {
     currentIndex++;
-    let randomIndex = Math.floor(Math.random() * array.length);
-    let randomItem = array[randomIndex];
-    let currentItem = array[currentIndex];
+    const randomIndex = Math.floor(Math.random() * array.length);
+    const randomItem = array[randomIndex];
+    const currentItem = array[currentIndex];
     array[randomIndex] = currentItem;
     array[currentIndex] = randomItem;
   })
@@ -32,7 +32,7 @@ shuffle(deckOfCards);
 
 /* enable navigating through cards using arrow keys */
 $(".card").keydown(function(event) {
-  let eventsId = event.target.id;
+  const eventsId = event.target.id;
   switch (event.which) {
     case 37:
       if (eventsId > 1 && eventsId != 5 && eventsId != 9 && eventsId != 13) {
@@ -70,11 +70,13 @@ let minutesStopped, secondsStopped;
 function isCardClickable(event) {
   isTimerRunning();
   if (cardComparisonArray.length < 2) {
-  if ($(event.target).hasClass("cardClosed")) {
-    incrementMoves();
-    starRater();
-    showCards();
-}}};
+    if ($(event.target).hasClass("cardClosed")) {
+      incrementMoves();
+      starRater();
+      showCards();
+    }    
+  }
+};
 
 /* is timer already running? */
 function isTimerRunning() {
@@ -144,11 +146,11 @@ function starRater() {
     $("#star3").css("color", "#b8ba70");
     starCounter--;
   } 
-  if (moveCounter === 34) {
+  else if (moveCounter === 34) {
     $("#star2").css("color", "#b8ba70");
     starCounter--;
   } 
-  if (moveCounter === 40) {
+  else if (moveCounter === 40) {
     $("#star1").css("color", "#b8ba70");
     starCounter--;
   } 
@@ -167,12 +169,12 @@ function timer() {
     if (seconds < 10) {
       seconds = `0${seconds}`;
     }
-    if (seconds === 60) { 
+    else if (seconds === 60) { 
       seconds = 0;
       seconds = `0${seconds}`;
       minutes++;
     }
-    if (minutes === 9 && seconds === 59) {
+    else if (minutes === 9 && seconds === 59) {
       newGame()
     }
     $("#timePassed").text(`time passed: 0${minutes}:${seconds}`);
@@ -181,8 +183,8 @@ function timer() {
 
 /* reload button - abort current game - start new game */
 $("#newRound").click(function() {
-  // location.reload();         uncomment!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  youWin();                       // delete!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  location.reload();         // comment out to debug modal
+  // youWin();               // uncomment to debug modal - click on reload-button simulates finished round and opens win-modal
 });
 
 /* win modal display of time */
@@ -191,10 +193,10 @@ function displayMinutes() {
   if (minutes == 0) {
     return ""
   }
-  if (minutes == 1) {
+  else if (minutes == 1) {
     return " " + minutes + " minute";
   } 
-  if (minutes > 1) {
+  else if (minutes > 1) {
     return " " + minutes + " minutes"
   }
 }
@@ -204,11 +206,11 @@ function displaySeconds() {
   if (seconds == 00) {
     return ""
   }
-  if (seconds == 1) {
+  else if (seconds == 1) {
     let withoutZero1 = seconds.toString()[1];
     return " " + withoutZero1 + " second";
   } 
-  if (seconds > 1 && seconds < 10) {
+  else if (seconds > 1 && seconds < 10) {
     let withoutZero2 = seconds.toString()[1];
     return " " + withoutZero2 + " seconds";
   }
@@ -223,7 +225,7 @@ function youWin() {
   secondsStopped = seconds;
 
   $('#winModal').modal("show");
-
+  $("#newGame").click(newGame);
   $(".modal-title").text("Congratulations!");
 
   $(".modal-body").text(`  You needed ${moveCounter} moves and it took you${displayMinutes()}${displaySeconds()} to find all the matches! 
@@ -232,7 +234,7 @@ function youWin() {
   /* win modal - input field */
   let playerNameText = document.createElement("label");
   playerNameText.setAttribute("id", "playerNameText");
-  playerNameText.textContent = "To see whether you made the top 10, enter your name here: ";
+  playerNameText.textContent = "To see whether you made the top 5, enter your name here: ";
   $(".modal-body").append(playerNameText);
 
   let playerName = document.createElement("input");
@@ -250,9 +252,9 @@ function youWin() {
   $(".modal-body").append(playerNameButton);
 
   /* when clicked, save modal input and player data in local storage */
-  $("#playerNameButton").one("click", function(event) {    //////////////////////////////// make keydown event for ENTER key
+  $("#playerNameButton").one("click", function(event) {    
 
-    let newEntry = {
+    const newEntry = {
       name: playerName.value,
       moves: moveCounter,
       timeMinutes: minutesStopped,
@@ -281,7 +283,7 @@ function youWin() {
           if (a.timeMinutes < b.timeMinutes) {
             return -1;
           }
-          if (a.timeMinutes === b.timeMinutes) {
+          else if (a.timeMinutes === b.timeMinutes) {
             if (a.timeSeconds < b.timeSeconds) {
               return -1
             }
@@ -304,13 +306,10 @@ function youWin() {
     
       // save updated top 5 to localstorage 
       localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
-      console.log("Updated leaderboard after saving it: ");
-      console.log(leaderboard);
       
       // build leaderboard structure
       $("#playerName").val("");
       $(".modal-title").text("Leaderboard");
-      console.log(leaderboard.name);
       $(".modal-body").html("<table><tr><td>Name</td><td>Moves</td><td>Time</td></tr></table>");
 
       // fill leaderboard with entries
@@ -322,17 +321,15 @@ function youWin() {
         else {
           secondsDisplayedLeaderboard = leaderboard[i].timeSeconds;
         }
-        let newRow = $("<tr><td>" + leaderboard[i].name + "</td><td>" + leaderboard[i].moves + "</td><td>" + 0 + leaderboard[i].timeMinutes + " : " + secondsDisplayedLeaderboard + "</td></tr>");
+        const newRow = $("<tr><td>" + leaderboard[i].name + "</td><td>" + leaderboard[i].moves + "</td><td>" + 0 + leaderboard[i].timeMinutes + " : " + secondsDisplayedLeaderboard + "</td></tr>");
         $(".modal-body table").append(newRow);
       }
-
-      $("#newGame").click(newGame);
-  });
+  })
 }
 
 /* reset without using server */
 function newGame() {
-location.reload();
+  location.reload();
 };
 
 /* call start game function */
