@@ -224,7 +224,7 @@ function youWin() {
   minutesStopped = minutes;
   secondsStopped = seconds;
 
-  $('#winModal').modal("show");
+  $("#winModal").modal("show");
   $("#newGame").click(newGame);
   $(".modal-title").text("Congratulations!");
 
